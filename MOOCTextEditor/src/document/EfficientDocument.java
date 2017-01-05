@@ -1,5 +1,6 @@
 package document;
 
+import java.util.Iterator;
 import java.util.List;
 
 /** 
@@ -51,6 +52,20 @@ public class EfficientDocument extends Document {
 		// MAKE SURE YOU UNDERSTAND THIS LINE BEFORE YOU CODE THE REST
 		// OF THIS METHOD.
 		List<String> tokens = getTokens("[!?.]+|[a-zA-Z]+");
+		numWords = (int)tokens.stream().filter(p -> isWord(p)).count();
+		/*numSentences = (int)tokens.stream().filter(p -> !isWord(p)).count();
+		numSentences = numWords > 0 && numSentences == 0?1:numSentences;*/
+		numSyllables = (int)tokens.stream().filter(p -> isWord(p)).mapToInt(p -> countSyllables(p)).sum();
+		
+		Iterator tokenIter = tokens.iterator();
+		while(tokenIter.hasNext()){
+			String token = (String)tokenIter.next();
+			if(!isWord(token)){
+				numSentences++;
+			}else if(!tokenIter.hasNext()){
+				numSentences++;
+			}
+		}
 		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
@@ -73,7 +88,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSentences() {
 		//TODO: write this method.  Hint: It's simple
-		return 0;
+		return numSentences;
 	}
 
 	
@@ -94,7 +109,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-	    return 0;
+	    return numWords;
 	}
 
 
@@ -116,7 +131,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+        return numSyllables;
 	}
 	
 	// Can be used for testing

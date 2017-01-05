@@ -65,9 +65,35 @@ public abstract class Document {
 	protected int countSyllables(String word)
 	{
 		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 1) and 
-	    // EfficientDocument (module 2).
-	    return 0;
+	    // getNumSyllables method in BasicDocument (module 2) and 
+	    // EfficientDocument (module 3).
+		
+		if(null == word || "".equals(word.trim()))
+			return 0;
+		
+		char[] charArr = word.toLowerCase().toCharArray();
+		int[] vowels = new int[256];
+		vowels['a']=vowels['e']=vowels['i']=vowels['o']=vowels['u']=vowels['y']=1;
+		int count = 0; 
+		for(int i=0; i<  charArr.length;i++ ){
+			
+			if(vowels[charArr[i]]==1){
+				//Each contiguous sequence of one or more vowels is a syllable
+				//checking previous of current index was a vowel, then don't count.
+				if(i>0 && vowels[charArr[i-1]] == 1){
+					continue;
+				}
+				//"e" at the end of a word is not considered a syllable unless the word has no other syllables 
+				else if(charArr[i]=='e' && count > 0 && i == charArr.length-1){
+					continue;
+				}else{
+					count++;
+				}
+			}
+			
+		}
+		
+	    return count;
 	}
 	
 	/** A method for testing
@@ -130,8 +156,15 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-	    // TODO: Implement this method in week 1
-	    return 0.0;
+	    // TODO: You will play with this method in week 1, and 
+		// then implement it in week 2
+		if(this.text == null){
+			return 0.0;
+		}
+		
+		double fleschScore = 206.835 - 1.015*(getNumWords() / getNumSentences()) - 84.6*(getNumSyllables()/getNumWords());
+		
+	    return fleschScore;
 	}
 	
 	

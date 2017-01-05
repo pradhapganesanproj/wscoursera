@@ -34,9 +34,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method in week 1 according to the comments above.  
-		// See the Module 1 support videos if you need help.
-	    return 0;
+		//TODO: Implement this method in week 2 according to the comments above.  
+		// See the Module 2 support videos if you need help.
+		List<String> wordsList = getTokens("[a-zA-Z]+");
+		//System.out.println("Words Follows-------");
+//		wordsList.forEach(str -> System.out.println(str));
+//		System.out.println("Words Ends-----Size:"+wordsList.size());
+		return wordsList.size();
 	}
 	
 	/**
@@ -54,10 +58,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
+	    //TODO: Implement this method.  See the Module 2 support videos 
         // if you need help.
-		getTokens("")
-        return 0;
+		List<String> sentences = getTokens("[^.!?]+");
+		//System.out.println("Sentenses follows ... ");
+//		sentences.forEach(sent->System.out.println(sent));
+		//System.out.println("Sentenses follows ... Ends. size: "+sentences.size());
+		return sentences.size();
 	}
 	
 	/**
@@ -77,12 +84,23 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method in week 1.  See the Module 1 support videos 
+	    //TODO: Implement this method in week 2.  See the Module 2 support videos 
         // if you need help.  And note that there is no need to use a regular
 		// expression for the syllable counting.  We recommend you implement 
 		// the helper function countSyllables in Document.java using a loop, 
 		// and then call it here on each word.
-        return 0;
+		
+		List<String> words = getTokens("[a-zA-Z]+");
+//		System.out.println("syllabel Follows-------");
+		// int count = words.stream().mapToInt((word)-> countSyllables(word)).sum();
+		int count = words.stream().mapToInt(this::printWordAndSyllabel).sum();
+        return count;
+	}
+	
+	private int printWordAndSyllabel(String word){
+		int count = countSyllables(word);
+//		System.out.println(" "+word+" count: "+count);
+		return count;
 	}
 	
 	
